@@ -1,3 +1,4 @@
+
 import java.util.*;
 public class Scheduler {
 	public static void main(String[] args) {
@@ -21,4 +22,4 @@ public class Scheduler {
 			priority[i] = input.nextInt();
 		}
 	}
-}
+
