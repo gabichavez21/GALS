@@ -38,6 +38,42 @@ public class Scheduler {
 
         return months;
     }
+  
+  	//Method for creating a schedule of tasks using the shortest job first greedy algorithm
+	//preconditions: takes in an array of class tasks that have been given by the user
+	//				 assumes no task will take over 9999 minutes
+	//Postcondition: Outputs an array of indexes depending on the order of the tasks to be completed
+	public static int[] SJF(ArrayList<Task> tasks) {
+		int i, j = 0; //index
+		//first fill a new array with all the values of time in tasks
+		int len = tasks.size();
+		int[] times = new int[len];
+		for(i = 0; i < len; i++) {
+			times[i] = tasks.get(i).time;
+		}
+		
+		//Find the job that takes the shortest amount of time first
+		//If two or more jobs have the same time then the algorithm defaults to FIFO
+		int smallest = 9999;
+		int smallind = -1; //index for smallest value
+		int indexes[] = new int[len];
+		while (j < len) { //fills array with indexes depending on task time in a increasing order
+			for(i = 0; i < len; i++) { //checks all the values to find the next smallest one
+				if(times[i] <= smallest && times[i] >= 0) {	//finds smallest must be positive
+					smallest = times[i];
+					smallind = i;
+				} //end if
+			} //end for
+			indexes[j] = smallind;
+			times[smallind] = -1; //sets the smallest values to -1 so not picked again
+			smallest = 9999; //resets smallest to test on
+			j++;
+		} //end while
+		
+		return indexes;
+	} //end SJF
+  
+  
     public static void main(String[] args) {
 
         // used to verify input for month
@@ -206,4 +242,3 @@ public class Scheduler {
         }
     }
 }
-
