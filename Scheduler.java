@@ -49,7 +49,7 @@ public class Scheduler {
             System.out.println("keepgoing: " + keepGoing);
 
 	    }
-
+        lottery(tasks);
         /*
         for ( Task task : tasks ) {
             System.out.println(task.title);
@@ -59,6 +59,40 @@ public class Scheduler {
         }
         */
     }
+    public static void lottery(ArrayList<Task> tasks){
+	    int length = tasks.size();
+	    ArrayList<Integer> lott = new ArrayList();
+	    int prior = 0;
+	    ArrayList<Integer> bag = new ArrayList();
+	    for(int i = 0; i <= length; i++){
+	        //add tickets to bag for each task
+	        prior = tasks.get(i).priority;
+	        //adds multiple tickets
+	        for(int j = 0; j <= prior; j++){
+	            bag.add(i);
+	        }
+	    }
+	    //choosing a random number
+	    while(bag.size() > 1){
+	        int high = bag.size();
+	        int r = (int) (Math.random() * (high));
+	        lott.add(r);
+	        //removing r from the "bag"
+	        for(int i = 0; i <= high; i++){
+	            if(r == bag.get(i)){
+	                bag.remove(i);
+	                i--;
+	            }
+	        }
+	    }
+	    int n = lott.size();
+	    int result[] = new int[n];
+	    for(int i = 0; i <= n; i++){
+	        result[i] = lott.get(i);
+	        System.out.println("Task " + i + " " + result[i]);
+	    }
+	}
+
 
     private static class Task {
         public int days;
@@ -74,5 +108,3 @@ public class Scheduler {
         }
     }
 }
-
-
