@@ -85,7 +85,7 @@ public class Scheduler {
 
         // get current date information
         GregorianCalendar currentDate = new GregorianCalendar();
-        System.out.println(currentDate);
+        //System.out.println(currentDate);
         int currentDay = currentDate.get(Calendar.DAY_OF_YEAR);
         int currentYear = currentDate.get(Calendar.YEAR);
 
@@ -227,8 +227,8 @@ public class Scheduler {
         for ( Task task : tasks ) {
             System.out.println(task.title);
             System.out.println(task.time);
-            //System.out.println(task.priority);
-            //System.out.println(task.days+ "\n");
+            System.out.println(task.priority);
+            System.out.println(task.days+ "\n");
         }
         
         System.out.println("\n\n");
@@ -243,7 +243,7 @@ public class Scheduler {
         // sort array indices
         indexes = SJF( tasks );
 
-        // used checking validity of sorted indices
+        // checking validity of sorted indices
         for ( int index : indexes ){
             System.out.println(tasks.get(index).title);
             System.out.println(tasks.get(index).time);
