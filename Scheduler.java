@@ -135,7 +135,7 @@ public class Scheduler {
 	    tasks.get(i).priority = Integer.parseInt(input.nextLine());
 
             
-            // get date input as string
+            // get date input as string, loop til valid
             validDate = false;
             while ( !validDate ) {
 	        System.out.println("When is this task due by?.");
@@ -145,7 +145,7 @@ public class Scheduler {
 	            strMonth = input.nextLine();
                     strMonth = strMonth.toLowerCase();
 
-                    // check input validity, and get month number
+                    // get month from user, loop til valid
                     month = -1;
                     for ( String key : keys ) {
                         if ( key.equals(strMonth) ){
@@ -157,7 +157,7 @@ public class Scheduler {
                         System.out.println("Invalid Input. Must be full name of month.\n");
                 }
                 
-                // get day of month, loop til valid input
+                // get day of month from user, loop til valid
                 validInput = false;
                 numDays = monthDays.get(strMonth);
                 while( !validInput ){
@@ -173,6 +173,7 @@ public class Scheduler {
                 }
 
 
+                // get year from user, loop til valid
                 validInput = false;
                 while ( !validInput ) {
 	            System.out.println("Please enter Year. Must be >= " + currentYear );
@@ -203,6 +204,7 @@ public class Scheduler {
                 dueDateDay  = dueDate.get(Calendar.DAY_OF_YEAR);
                 daysRemaining = (365 * futureYear) + dueDateDay - currentDay;
 
+                // check to see if due date has already passed
                 if ( daysRemaining < 0 )
                     System.out.println("\nDue date cannot have already passed.\n\n");
                 else
@@ -221,6 +223,7 @@ public class Scheduler {
 	    }
 
 
+        // print all tasks, used for debugging
         for ( Task task : tasks ) {
             System.out.println(task.title);
             System.out.println(task.time);
@@ -230,9 +233,17 @@ public class Scheduler {
         
         System.out.println("\n\n");
 
+        // get number of tasks
         int numTasks = tasks.size();
+
+        // array to hold array indices in tasks
+        // from shortest job to longest job
         int[] indexes = new int[numTasks];
+        
+        // sort array indices
         indexes = SJF( tasks );
+
+        // used checking validity of sorted indices
         for ( int index : indexes ){
             System.out.println(tasks.get(index).title);
             System.out.println(tasks.get(index).time);
