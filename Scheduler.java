@@ -220,11 +220,22 @@ public class Scheduler {
 
 	    }
 
+
         for ( Task task : tasks ) {
             System.out.println(task.title);
             System.out.println(task.time);
-            System.out.println(task.priority);
-            System.out.println(task.days+ "\n");
+            //System.out.println(task.priority);
+            //System.out.println(task.days+ "\n");
+        }
+        
+        System.out.println("\n\n");
+
+        int numTasks = tasks.size();
+        int[] indexes = new int[numTasks];
+        indexes = SJF( tasks );
+        for ( int index : indexes ){
+            System.out.println(tasks.get(index).title);
+            System.out.println(tasks.get(index).time);
         }
     }
 
