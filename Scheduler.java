@@ -1,4 +1,6 @@
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 public class Scheduler {
 
     // method to create monthNumber hashtable
@@ -44,33 +46,35 @@ public class Scheduler {
 	//				 assumes no task will take over 9999 minutes
 	//Postcondition: Outputs an array of indexes depending on the order of the tasks to be completed
 	public static int[] SJF(ArrayList<Task> tasks) {
-		int i, j = 0; //index
-		//first fill a new array with all the values of time in tasks
-		int len = tasks.size();
-		int[] times = new int[len];
-		for(i = 0; i < len; i++) {
-			times[i] = tasks.get(i).time;
-		}
-		
-		//Find the job that takes the shortest amount of time first
-		//If two or more jobs have the same time then the algorithm defaults to FIFO
-		int smallest = 9999;
-		int smallind = -1; //index for smallest value
-		int indexes[] = new int[len];
-		while (j < len) { //fills array with indexes depending on task time in a increasing order
-			for(i = 0; i < len; i++) { //checks all the values to find the next smallest one
-				if(times[i] <= smallest && times[i] >= 0) {	//finds smallest must be positive
-					smallest = times[i];
-					smallind = i;
-				} //end if
-			} //end for
-			indexes[j] = smallind;
-			times[smallind] = -1; //sets the smallest values to -1 so not picked again
-			smallest = 9999; //resets smallest to test on
-			j++;
-		} //end while
-		
-		return indexes;
+
+
+	    int i, j = 0; //index
+	    //first fill a new array with all the values of time in tasks
+	    int len = tasks.size();
+	    int[] times = new int[len];
+	    for(i = 0; i < len; i++) {
+	    	times[i] = tasks.get(i).time;
+	    }
+	    
+	    //Find the job that takes the shortest amount of time first
+	    //If two or more jobs have the same time then the algorithm defaults to FIFO
+	    int smallest = 9999;
+	    int smallind = -1; //index for smallest value
+	    int indexes[] = new int[len];
+	    while (j < len) { //fills array with indexes depending on task time in a increasing order
+	    	for(i = 0; i < len; i++) { //checks all the values to find the next smallest one
+	    	    if(times[i] <= smallest && times[i] >= 0) {	//finds smallest must be positive
+	    	        smallest = times[i];
+	    	        smallind = i;
+	    	    } //end if
+	    	} //end for
+	    	indexes[j] = smallind;
+	    	times[smallind] = -1; //sets the smallest values to -1 so not picked again
+	    	smallest = 9999; //resets smallest to test on
+	    	j++;
+	    } //end while
+	    
+	    return indexes;
 	} //end SJF
   
   
@@ -241,13 +245,35 @@ public class Scheduler {
         int[] indexes = new int[numTasks];
         
         // sort array indices
+        long startTime = System.nanoTime();
         indexes = SJF( tasks );
-
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        long seconds = (endTime - startTime)/1000000000;
         // checking validity of sorted indices
         for ( int index : indexes ){
             System.out.println(tasks.get(index).title);
             System.out.println(tasks.get(index).time);
         }
+
+        // duration of SJF
+        System.out.println("\n\nSJF Function Time in nano seconds: \n\n" + duration);
+        System.out.println("\n\nSJF Function Time roughly in seconds: \n\n" + seconds);
+
+        String durationString = Long.toString(duration);
+
+        // creates the file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("SJF_times.txt", true));
+            writer.append(durationString + "\n");
+             
+            writer.close();
+        }
+        catch ( IOException e ){
+            System.out.println(e.toString());
+            System.out.println("could not create file SJF_times.txt.");
+        }
+
     }
 
     private static class Task {

@@ -33,13 +33,16 @@ monthDays = {
 
 def main():
 
-    files = [None] * 5
-    for i in range(0, 5):
+    files = [None] * 10
+    numFiles = len(files)
+    numTasks = 1000
+
+    for i in range(0, numFiles):
         files[i] = ("Input" + str(i) + ".txt")
 
     for textFile in files:
         f = open(textFile, 'w+')
-        for j in range(0, 100):
+        for j in range(0, numTasks):
             # task name
             f.write("Task" + str(j) + "\n")
 
@@ -62,7 +65,7 @@ def main():
             # year
             f.write("2020\n")
 
-            if j < 99:
+            if j < numTasks - 1:
                 f.write("y\n")
 
         f.write("n")
