@@ -1,4 +1,6 @@
 import java.util.*;
+import java.lang.*;
+import java.io.*;
 public class Scheduler {
 
     // method to create monthNumber hashtable
@@ -85,7 +87,6 @@ public class Scheduler {
             return indexes ;
         }//end FCFS
 
-  
     public static void main(String[] args) {
 
         // used to verify input for month
@@ -253,13 +254,35 @@ public class Scheduler {
         int[] indexes = new int[numTasks];
         
         // sort array indices
+        long startTime = System.nanoTime();
         indexes = SJF( tasks );
-
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        long seconds = (endTime - startTime)/1000000000;
         // checking validity of sorted indices
         for ( int index : indexes ){
             System.out.println(tasks.get(index).title);
             System.out.println(tasks.get(index).time);
         }
+
+        // duration of SJF
+        System.out.println("\n\nSJF Function Time in nano seconds: \n\n" + duration);
+        System.out.println("\n\nSJF Function Time roughly in seconds: \n\n" + seconds);
+
+        String durationString = Long.toString(duration);
+
+        // creates the file
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("SJF_times.txt", true));
+            writer.append(durationString + "\n");
+             
+            writer.close();
+        }
+        catch ( IOException e ){
+            System.out.println(e.toString());
+            System.out.println("could not create file SJF_times.txt.");
+        }
+
     }
 
     private static class Task {
