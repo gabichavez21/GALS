@@ -38,6 +38,54 @@ public class Scheduler {
 
         return months;
     }
+  
+  	//Method for creating a schedule of tasks using the shortest job first greedy algorithm
+	//preconditions: takes in an array of class tasks that have been given by the user
+	//				 assumes no task will take over 9999 minutes
+	//Postcondition: Outputs an array of indexes depending on the order of the tasks to be completed
+	public static int[] SJF(ArrayList<Task> tasks) {
+		int i, j = 0; //index
+		//first fill a new array with all the values of time in tasks
+		int len = tasks.size();
+		int[] times = new int[len];
+		for(i = 0; i < len; i++) {
+			times[i] = tasks.get(i).time;
+		}
+		
+		//Find the job that takes the shortest amount of time first
+		//If two or more jobs have the same time then the algorithm defaults to FIFO
+		int smallest = 9999;
+		int smallind = -1; //index for smallest value
+		int indexes[] = new int[len];
+		while (j < len) { //fills array with indexes depending on task time in a increasing order
+			for(i = 0; i < len; i++) { //checks all the values to find the next smallest one
+				if(times[i] <= smallest && times[i] >= 0) {	//finds smallest must be positive
+					smallest = times[i];
+					smallind = i;
+				} //end if
+			} //end for
+			indexes[j] = smallind;
+			times[smallind] = -1; //sets the smallest values to -1 so not picked again
+			smallest = 9999; //resets smallest to test on
+			j++;
+		} //end while
+		
+		return indexes;
+	} //end SJF
+        
+        //Method for creating a schedule of tasks using the First Come First Serve algorithm
+        //Pre: takes in an array of class Tasks that have been given by the user
+        //Post: returns an array of indexes depending on the input order
+        public static int[] FCFS(ArrayList<Task> tasks) {
+            int len = tasks.size();
+            int indexes[] = new int[len];
+            for(int i = 0; i < len; i++){
+                indexes[i] = tasks.indexOf(tasks.get(i));//returning index of list in order it was put in
+            }
+            return indexes ;
+        }//end FCFS
+
+  
     public static void main(String[] args) {
 
         // used to verify input for month
@@ -49,7 +97,7 @@ public class Scheduler {
 
         // get current date information
         GregorianCalendar currentDate = new GregorianCalendar();
-        System.out.println(currentDate);
+        //System.out.println(currentDate);
         int currentDay = currentDate.get(Calendar.DAY_OF_YEAR);
         int currentYear = currentDate.get(Calendar.YEAR);
 
@@ -99,7 +147,7 @@ public class Scheduler {
 	    tasks.get(i).priority = Integer.parseInt(input.nextLine());
 
             
-            // get date input as string
+            // get date input as string, loop til valid
             validDate = false;
             while ( !validDate ) {
 	        System.out.println("When is this task due by?.");
@@ -109,7 +157,7 @@ public class Scheduler {
 	            strMonth = input.nextLine();
                     strMonth = strMonth.toLowerCase();
 
-                    // check input validity, and get month number
+                    // get month from user, loop til valid
                     month = -1;
                     for ( String key : keys ) {
                         if ( key.equals(strMonth) ){
@@ -121,7 +169,7 @@ public class Scheduler {
                         System.out.println("Invalid Input. Must be full name of month.\n");
                 }
                 
-                // get day of month, loop til valid input
+                // get day of month from user, loop til valid
                 validInput = false;
                 numDays = monthDays.get(strMonth);
                 while( !validInput ){
@@ -137,6 +185,7 @@ public class Scheduler {
                 }
 
 
+                // get year from user, loop til valid
                 validInput = false;
                 while ( !validInput ) {
 	            System.out.println("Please enter Year. Must be >= " + currentYear );
@@ -167,6 +216,7 @@ public class Scheduler {
                 dueDateDay  = dueDate.get(Calendar.DAY_OF_YEAR);
                 daysRemaining = (365 * futureYear) + dueDateDay - currentDay;
 
+                // check to see if due date has already passed
                 if ( daysRemaining < 0 )
                     System.out.println("\nDue date cannot have already passed.\n\n");
                 else
@@ -184,11 +234,31 @@ public class Scheduler {
 
 	    }
 
+
+        // print all tasks, used for debugging
         for ( Task task : tasks ) {
             System.out.println(task.title);
             System.out.println(task.time);
             System.out.println(task.priority);
             System.out.println(task.days+ "\n");
+        }
+        
+        System.out.println("\n\n");
+
+        // get number of tasks
+        int numTasks = tasks.size();
+
+        // array to hold array indices in tasks
+        // from shortest job to longest job
+        int[] indexes = new int[numTasks];
+        
+        // sort array indices
+        indexes = SJF( tasks );
+
+        // checking validity of sorted indices
+        for ( int index : indexes ){
+            System.out.println(tasks.get(index).title);
+            System.out.println(tasks.get(index).time);
         }
     }
 
@@ -206,4 +276,3 @@ public class Scheduler {
         }
     }
 }
-
