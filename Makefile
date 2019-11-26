@@ -9,8 +9,8 @@ all	:	createInput.py Scheduler.java
 run_simple	: Scheduler.class tasks.txt
 	java Scheduler < tasks.txt
 
-run_one		: Input0.txt
-	java Scheduler < Input0.txt
+run_one		: input/ input/Input0.txt
+	java Scheduler < input/Input0.txt
 
 run_many	: input/
 	./runTests.sh

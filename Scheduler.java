@@ -81,6 +81,7 @@ public class Scheduler{
 
 
 
+  /*
   //Method for creating a schedule of tasks using the First Come First Serve algorithm
   //Pre: takes in an array of class Tasks that have been given by the user
   //Post: returns an array of indexes depending on the input order
@@ -92,6 +93,20 @@ public class Scheduler{
       }
       return indexes ;
   }//end FCFS
+  */
+
+
+  public int [] FCFS(){
+        int len =  tasks.size();
+        int[] answer = new int[len];
+
+        int i = 0;
+        for( Task t : this.tasks ){
+            answer[i] = i;
+        }
+
+        return answer;
+  }
 
 
 

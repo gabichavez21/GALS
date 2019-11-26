@@ -41,7 +41,8 @@ def main():
         files[i] = ("Input" + str(i) + ".txt")
 
     for textFile in files:
-        f = open(textFile, 'w+')
+        filepath = "./input/" + textFile
+        f = open(filepath, 'w+')
         for j in range(0, numTasks):
             # task name
             f.write("Task" + str(j) + "\n")
