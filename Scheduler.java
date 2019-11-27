@@ -76,7 +76,46 @@ public class Scheduler{
   
 
 
-
+    public int[] Lottery(){
+    	int length = this.size();
+    	ArrayList<Integer> lott = new ArrayList<Integer>();
+    	int prior = 0;
+    	ArrayList<Integer> bag = new ArrayList<Integer>();
+    	for(int i = 0; i < length; i++){
+    	    //add tickets to bag for each task
+    	    prior = this.getTask(i).priority;
+    	    //adds multiple tickets
+    	    for(int j = 0; j < prior; j++){
+    	        bag.add(i);
+    	    }
+    	}
+    	//choosing a random number
+    	while(bag.size() >= 1){
+    	    int high = bag.size();
+    	    int r = (int) (Math.random() * (high));
+    	    lott.add(bag.get(r));
+    	    int win = bag.get(r);
+    	    //removing r from the "bag"
+    	    //this loop removes indexes from bag
+    	    //continues until the amount in the bag has been reached
+    	    //this for loop needs to be a while loop controlled by size of bag
+    	    int i = 0;
+    	    while(i < high){
+    	        if(win == bag.get(i)){
+    	            bag.remove(i);
+    		    high--;
+    	            i--;
+    		}//end if
+    		i++;
+    	    }//end while
+    	}//end while
+    	int n = lott.size();
+    	int result[] = new int[n];
+    	for(int i = 0; i < n; i++){
+    	    result[i] = lott.get(i);
+    	}//end for
+        return result;
+    }//end lottery
 
 
 
@@ -316,7 +355,7 @@ public class Scheduler{
         int numTasks = sched.tasks.size();
 
         
-        // create schedule using SJF
+        /* create schedule using SJF
         // and time it
         int[] SJF_sched = new int[numTasks];
         Test test1 = new Test();
@@ -335,7 +374,16 @@ public class Scheduler{
         FCFS_times = sched.FCFS( );
         test2.stop();
         test2.display();
-        test2.write("FCFS_times.txt");
+        test2.write("FCFS_times.txt");*/
+
+        int[] Lott_times = new int[numTasks];
+        Test test3 = new Test();
+        test3.start();
+        Lott_times = sched.Lottery( );
+        test3.stop();
+        test3.display();
+        test3.write("Lott_times.txt");
+
 
         // checking validity of sorted indices
         /*
