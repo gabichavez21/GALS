@@ -362,36 +362,43 @@ public class Scheduler{
         test1.start();
         SJF_sched = sched.SJF( );
         test1.stop();
-        test1.display();
+        test1.display("SJF");
         test1.write("SJF_times.txt");
 
 
         // create schedule using FCFS_times
         // and time it
-        int[] FCFS_times = new int[numTasks];
+        int[] FCFS_sched = new int[numTasks];
         Test test2 = new Test();
         test2.start();
-        FCFS_times = sched.FCFS( );
+        FCFS_sched = sched.FCFS( );
         test2.stop();
-        test2.display();
+        test2.display("FCFS");
         test2.write("FCFS_times.txt");*/
-
-        int[] Lott_times = new int[numTasks];
+        
+        int[] Lott_sched = new int[numTasks];
         Test test3 = new Test();
         test3.start();
-        Lott_times = sched.Lottery( );
+        Lott_sched = sched.Lottery( );
         test3.stop();
-        test3.display();
+        test3.display("Lottery");
         test3.write("Lott_times.txt");
 
 
         // checking validity of sorted indices
-        /*
-        for ( int index : indexes ){
-            System.out.println(sched.tasks.get(index).title);
-            System.out.println(sched.tasks.get(index).time);
+
+        // which array?
+        //int[] array = SJF_sched;
+        //int[] array = FCFS_sched;
+        int[] array = Lott_sched;
+
+        // used to display schedule
+        for ( int index : array ){
+            System.out.println(sched.getTask(index).title);
+            System.out.println(sched.getTask(index).time);
+            System.out.println(sched.getTask(index).priority);
+
         }
-        */
          
     }
 
@@ -491,10 +498,10 @@ public class Scheduler{
         }
 
         // display completion time to console
-        public void display(){
+        public void display(String funcName){
 
-            System.out.println("\n\nSJF Function Time in nano seconds: \n\n" + duration);
-            System.out.println("\n\nSJF Function Time roughly in seconds: \n\n" + seconds);
+            System.out.println("\n\n" + funcName + " Time in nano seconds: \n\n" + duration);
+            System.out.println("\n\n" + funcName + " Time roughly in seconds: \n\n" + seconds);
         }
 
         // create txt file of times
