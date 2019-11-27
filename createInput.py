@@ -33,9 +33,9 @@ monthDays = {
 
 def main():
 
-    files = [None] * 10
+    files = [None] * 2
     numFiles = len(files)
-    numTasks = 1000
+    numTasks = 10
 
     for i in range(0, numFiles):
         files[i] = ("Input" + str(i) + ".txt")
