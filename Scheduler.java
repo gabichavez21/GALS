@@ -35,6 +35,19 @@ public class Scheduler{
         return this.tasks.size();
     }
 
+    public void display( int[] schedule){
+
+
+        // used to display schedule
+        for ( int index : schedule ){
+            System.out.println(this.getTask(index).title);
+            System.out.println(this.getTask(index).time);
+            System.out.println(this.getTask(index).priority);
+            System.out.println();
+        }
+
+    }
+
 /*===================================================================================
         SCHEDULING ALGORITHMS
 =====================================================================================*/
@@ -120,7 +133,6 @@ public class Scheduler{
 
 
 
-  /*
   //Method for creating a schedule of tasks using the First Come First Serve algorithm
   //Pre: takes in an array of class Tasks that have been given by the user
   //Post: returns an array of indexes depending on the input order
@@ -132,20 +144,8 @@ public class Scheduler{
       }
       return indexes ;
   }//end FCFS
-  */
 
 
-  public int [] FCFS(){
-        int len =  tasks.size();
-        int[] answer = new int[len];
-
-        int i = 0;
-        for( Task t : this.tasks ){
-            answer[i] = i;
-        }
-
-        return answer;
-  }
 
 
 
@@ -355,7 +355,9 @@ public class Scheduler{
         int numTasks = sched.tasks.size();
 
         
-        /* create schedule using SJF
+        System.out.println("\n\n---   Shortest Job First Schedule   --- ");
+
+        // create schedule using SJF
         // and time it
         int[] SJF_sched = new int[numTasks];
         Test test1 = new Test();
@@ -365,6 +367,12 @@ public class Scheduler{
         test1.display("SJF");
         test1.write("SJF_times.txt");
 
+        
+        // display the schedule
+        sched.display( SJF_sched );
+
+
+        System.out.println("\n\n---   First Come First Serve Schedule   --- ");
 
         // create schedule using FCFS_times
         // and time it
@@ -374,8 +382,19 @@ public class Scheduler{
         FCFS_sched = sched.FCFS( );
         test2.stop();
         test2.display("FCFS");
-        test2.write("FCFS_times.txt");*/
+        test2.write("FCFS_times.txt");
+
+
+        // display FCFS schedule
+        sched.display( FCFS_sched );
+
+
+
+
+        System.out.println("\n\n---   Lottery Schedule   --- ");
         
+        // create schedule using Lottery
+        // and time it
         int[] Lott_sched = new int[numTasks];
         Test test3 = new Test();
         test3.start();
@@ -385,20 +404,13 @@ public class Scheduler{
         test3.write("Lott_times.txt");
 
 
-        // checking validity of sorted indices
 
-        // which array?
-        //int[] array = SJF_sched;
-        //int[] array = FCFS_sched;
-        int[] array = Lott_sched;
+        sched.display(Lott_sched);
 
-        // used to display schedule
-        for ( int index : array ){
-            System.out.println(sched.getTask(index).title);
-            System.out.println(sched.getTask(index).time);
-            System.out.println(sched.getTask(index).priority);
 
-        }
+
+        
+
          
     }
 
@@ -477,7 +489,6 @@ public class Scheduler{
         public Test(){
             time = 0;
             duration = 0;
-            seconds = 0;
             durationString = "";
         }
 
@@ -494,14 +505,12 @@ public class Scheduler{
 
             duration = stopTime - time;
             durationString = Long.toString(duration);
-            seconds = duration / 1000000000;
         }
 
         // display completion time to console
         public void display(String funcName){
 
-            System.out.println("\n\n" + funcName + " Time in nano seconds: \n\n" + duration);
-            System.out.println("\n\n" + funcName + " Time roughly in seconds: \n\n" + seconds);
+            System.out.println("\n\n" + funcName + " Time in nano seconds: " + duration + "\n\n");
         }
 
         // create txt file of times
