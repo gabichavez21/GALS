@@ -35,14 +35,31 @@ public class Scheduler{
         return this.tasks.size();
     }
 
-    public void display( int[] schedule){
+    public void display( String name, int[] schedule){
+
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(name));
+            for ( int index : schedule ) {
+                writer.write("Task to do: \t\t\t\t" + this.getTask(index).title + "\n");
+                writer.write("Time to complete task: \t\t\t" + Integer.toString(this.getTask(index).time) + "\n");
+                writer.write("Task priority: \t\t\t\t" + Integer.toString(this.getTask(index).priority) + "\n");
+                //writer.write("Days remaining to complete task: \t" + Integer.toString(this.getTask(index).days) + "\n");
+            }
+             
+            writer.close();
+        }
+        catch ( IOException e ) { 
+            System.out.println("Something went wrong.");
+        }
 
 
         // used to display schedule
         for ( int index : schedule ){
-            System.out.println(this.getTask(index).title);
-            System.out.println(this.getTask(index).time);
-            System.out.println(this.getTask(index).priority);
+            System.out.println("Task to do: \t\t\t\t" + this.getTask(index).title);
+            System.out.println("Time to complete task: \t\t\t" + this.getTask(index).time);
+            System.out.println("Task priority: \t\t\t\t" + this.getTask(index).priority);
+            //System.out.println("Days remaining to complete task: \t" + this.getTask(index).days);
             System.out.println();
         }
 
@@ -342,7 +359,8 @@ public class Scheduler{
             System.out.println(task.title);
             System.out.println(task.time);
             System.out.println(task.priority);
-            System.out.println(task.days+ "\n");
+            //System.out.println(task.days+ "\n");
+            System.out.println();
         }
         
         System.out.println("\n\n");
@@ -359,17 +377,18 @@ public class Scheduler{
 
         // create schedule using SJF
         // and time it
+        String fileName = "SJF_times";
         int[] SJF_sched = new int[numTasks];
         Test test1 = new Test();
         test1.start();
         SJF_sched = sched.SJF( );
         test1.stop();
         test1.display("SJF");
-        test1.write("SJF_times.txt");
+        test1.write("SJF_times.csv");
 
         
         // display the schedule
-        sched.display( SJF_sched );
+        sched.display( "SJF_Schedule.txt", SJF_sched );
 
 
         System.out.println("\n\n---   First Come First Serve Schedule   --- ");
@@ -382,11 +401,11 @@ public class Scheduler{
         FCFS_sched = sched.FCFS( );
         test2.stop();
         test2.display("FCFS");
-        test2.write("FCFS_times.txt");
+        test2.write("FCFS_times.csv");
 
 
         // display FCFS schedule
-        sched.display( FCFS_sched );
+        sched.display( "FCFS_Schedule.txt", FCFS_sched );
 
 
 
@@ -401,11 +420,11 @@ public class Scheduler{
         Lott_sched = sched.Lottery( );
         test3.stop();
         test3.display("Lottery");
-        test3.write("Lott_times.txt");
+        test3.write("Lott_times.csv");
 
 
 
-        sched.display(Lott_sched);
+        sched.display("Lottery_Schedule.txt", Lott_sched);
 
 
 
@@ -517,7 +536,7 @@ public class Scheduler{
         public void write(String fileName){
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-                writer.append(durationString + "\n");
+                writer.append(durationString + ",\n");
                  
                 writer.close();
             }
