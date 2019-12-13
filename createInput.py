@@ -33,7 +33,7 @@ monthDays = {
 
 def main():
 
-    files = [None] * 2
+    files = [None] * 10
     numFiles = len(files)
     numTasks = 10
 
